@@ -19,8 +19,6 @@ function SquareBoxContainer({ inputArr }: SquareBoxContainerProps) {
     console.log("inputArr handleClick", inputArr);
   };
 
-  console.log("tempArray", tempArray);
-
   useEffect(() => {
     let count = 2;
     for (let i = 0; i < inputArr.length; i++) {
