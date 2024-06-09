@@ -12,7 +12,7 @@ function App() {
   ];
   return (
     <div>
-      <SquareBoxContainer inputArr={inputArr} />
+      <SquareBoxContainer data={inputArr} />
     </div>
   );
 }

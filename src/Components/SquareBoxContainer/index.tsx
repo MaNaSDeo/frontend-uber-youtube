@@ -1,69 +1,94 @@
-import { useEffect, useState } from "react";
-import { type InputArrayType } from "../../App";
+import { useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
+import { InputArrayType } from "../../App";
 import "./SquareBoxContainer.css";
 
 interface SquareBoxContainerProps {
-  inputArr: InputArrayType;
+  data: InputArrayType;
 }
 
-function SquareBoxContainer({ inputArr }: SquareBoxContainerProps) {
-  const [count, setCount] = useState<number>(2);
-  const [maxCount, setMaxCount] = useState<number>(0);
-  const [tempArray, setTempArray] = useState<number[][]>([]);
-
-  const handleClick = (row: number, col: number) => {
-    // console.log("row :- ", row, "col :- ", col);
-    inputArr[row][col] = count;
-    setCount(count + 1);
-    setTempArray((prevArray) => [...prevArray, [row, col]]);
-    console.log("inputArr handleClick", inputArr);
-  };
-
-  console.log("tempArray", tempArray);
-
-  useEffect(() => {
-    let count = 2;
-    for (let i = 0; i < inputArr.length; i++) {
-      for (let j = 0; j < inputArr[i].length; j++) {
-        if (inputArr[i][j] === 1) {
-          count++;
-        }
+function SquareBoxContainer({ data }: SquareBoxContainerProps) {
+  const boxes = useMemo(() => data.flat(Infinity), [data]);
+  const [selected, setSelected] = useState<Set<number>>(new Set());
+  const [unloading, setUnloading] = useState<boolean>(false);
+  const timerRef = useRef<number | null>(null);
+  const countOfVisibileBoxes = useMemo(() => {
+    return boxes.reduce((acc: number, box) => {
+      if (box === 1) {
+        acc += 1;
       }
+      return acc;
+    }, 0);
+  }, [boxes]);
+
+  function handleClick(e: MouseEvent<HTMLDivElement>) {
+    const target = e.target as HTMLDivElement;
+    const indexStr = target.getAttribute("data-index");
+    const status: string | null = target.getAttribute("data-status");
+
+    if (
+      indexStr === null ||
+      status === "hidden" ||
+      selected.has(parseFloat(indexStr)) ||
+      unloading
+    ) {
+      return;
     }
-    setMaxCount(count);
-  }, []);
-  console.log("count", count);
-  console.log("maxCount", maxCount);
-  if (count === maxCount) {
-    for (let i = tempArray.length - 1; i >= 0; i--) {
-      inputArr[tempArray[i][0]][tempArray[i][1]] = 1;
-      console.log("inputArr", inputArr);
-    }
+
+    const index = parseInt(indexStr, 10);
+    setSelected((prev) => {
+      return new Set<number>(prev.add(index));
+    });
   }
 
+  const unload = () => {
+    setUnloading(true);
+    const keys = Array.from(selected.keys());
+
+    const removeNextKey = () => {
+      if (keys.length) {
+        const currentKey = keys.shift();
+
+        setSelected((prev) => {
+          const updatedKeys = new Set(prev);
+          updatedKeys.delete(currentKey!);
+          return updatedKeys;
+        });
+
+        timerRef.current = setTimeout(removeNextKey, 500);
+      } else {
+        setUnloading(false);
+        timerRef.current && clearTimeout(timerRef.current);
+      }
+    };
+    timerRef.current = setTimeout(removeNextKey, 100);
+  };
+
+  useEffect(() => {
+    if (selected.size >= countOfVisibileBoxes) {
+      //unloading
+      unload();
+    }
+  }, [selected]);
+
   return (
-    <main>
-      {inputArr &&
-        inputArr.length &&
-        inputArr.map((subArray, row) => {
+    <div className="square-container" onClick={handleClick}>
+      {boxes &&
+        boxes.length &&
+        boxes.map((box, index) => {
+          const status = box === 0 ? "hidden" : "visible";
+          const isSelected = selected.has(index);
           return (
-            <div className="square-container" key={row}>
-              {subArray &&
-                subArray.length &&
-                subArray.map((ele, col) => {
-                  return ele ? (
-                    <button
-                      className={`square ${ele !== 1 ? "selectedSquare" : ""}`}
-                      key={col}
-                      onClick={() => handleClick(row, col)}
-                      disabled={ele !== 1}
-                    ></button>
-                  ) : null;
-                })}
-            </div>
+            <div
+              className={`square ${box === 0 ? "boxHidden" : "boxVisible"} ${
+                isSelected ? "selectedSquare" : ""
+              }`}
+              key={`${box}-${index}`}
+              data-index={index}
+              data-status={status}
+            ></div>
           );
         })}
-    </main>
+    </div>
   );
 }
 
