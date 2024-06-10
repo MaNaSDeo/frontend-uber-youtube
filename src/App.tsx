@@ -1,6 +1,7 @@
 import SquareBoxContainer from "./Components/SquareBoxContainer";
 import SelectBoxes from "./Components/SelectBoxes";
-
+import "./index.css";
+import LandingPage from "./Components/LandingPage";
 export type InputArrayType = number[][];
 
 function App() {
@@ -10,9 +11,10 @@ function App() {
     [1, 1, 1],
   ];
   return (
-    <div>
+    <div className="app">
       {/* <SquareBoxContainer data={inputArr} /> */}
-      <SelectBoxes />
+      {/* <SelectBoxes /> */}
+      <LandingPage />
     </div>
   );
 }

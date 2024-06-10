@@ -15,8 +15,8 @@ function SelectBoxes() {
   console.log("targetArray", targetArray);
 
   useEffect(() => {
-    // const arr = Array(3).fill(Array(3).fill(0));
-    const arr = Array(3).map(() => Array(3).fill(0));
+    const arr = Array(3).fill(Array(3).fill(0));
+    // const arr = Array(3).map(() => Array(3).fill(0));
     setTargetArray(arr);
   }, []);
   const handleClick = (e: MouseEvent<HTMLDivElement>) => {
