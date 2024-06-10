@@ -1,26 +1,18 @@
-.square-container {
+.squareContainer {
   max-width: calc(3 * 120px);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   align-items: center;
+  gap: 10px;
 }
 .square {
   width: 100px;
-  height: 100px;
-  margin: 10px;
+  aspect-ratio: 1;
   transition: background-color 0.4s ease-in-out;
+  border: 1px solid black;
+  cursor: pointer;
 }
 .selectedSquare {
   background-color: #0bcc59;
   border: none !important;
-  cursor: not-allowed;
-}
-.boxVisible {
-  border: 1px solid black;
-  cursor: pointer;
-}
-.boxHidden {
-  cursor: initial;
-  opacity: 0;
-  pointer-events: none;
 }

@@ -1,7 +1,6 @@
 import SquareBoxContainer from "./Components/SquareBoxContainer";
+import SelectBoxes from "./Components/SelectBoxes";
 
-// type InnerSubArray = number[];
-// type InputArrayType = InnerSubArray[];
 export type InputArrayType = number[][];
 
 function App() {
@@ -12,7 +11,8 @@ function App() {
   ];
   return (
     <div>
-      <SquareBoxContainer data={inputArr} />
+      {/* <SquareBoxContainer data={inputArr} /> */}
+      <SelectBoxes />
     </div>
   );
 }
