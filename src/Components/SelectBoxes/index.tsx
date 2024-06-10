@@ -1,24 +1,23 @@
 import { useEffect, useState, type MouseEvent } from "react";
 import styles from "./SelectBoxes.module.scss";
+import { useNavigate } from "react-router-dom";
 
-type GridValue = 0 | 1;
-type GridRow = GridValue[];
-type GridData = GridRow[];
+export type GridData = number[][];
 
-function SelectBoxes() {
-  const data = [
-    [0, 0, 0],
-    [0, 0, 0],
-    [0, 0, 0],
-  ];
-  const [targetArray, setTargetArray] = useState<number[][]>(data);
-  console.log("targetArray", targetArray);
+interface SelectBoxesProps {
+  gridNum: number;
+  setPatternArray: (arr: GridData) => void;
+}
+function SelectBoxes({ gridNum, setPatternArray }: SelectBoxesProps) {
+  const [targetArray, setTargetArray] = useState<GridData>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const arr = Array(3).fill(Array(3).fill(0));
+    const arr = Array(gridNum).fill(Array(gridNum).fill(0));
     // const arr = Array(3).map(() => Array(3).fill(0));
     setTargetArray(arr);
   }, []);
+
   const handleClick = (e: MouseEvent<HTMLDivElement>) => {
     const target = e.target as HTMLDivElement;
     const rowAttr = target.getAttribute("data-row");
@@ -45,28 +44,43 @@ function SelectBoxes() {
       }
     }
   };
+
+  const onSubmit = () => {
+    setPatternArray(targetArray);
+    navigate("/square-box-container");
+  };
+
+  useEffect(() => {
+    if (gridNum === 0) {
+      navigate("/");
+    }
+  }, [gridNum]);
+
   return (
-    <div className={styles.squareContainer} onClick={handleClick}>
-      {targetArray &&
-        targetArray.length &&
-        targetArray.map((subArr, row) => {
-          return (
-            subArr &&
-            subArr.length &&
-            subArr.map((ele, col) => {
-              return (
-                <div
-                  key={`${row}-${col}`}
-                  className={`${styles.square} ${
-                    ele === 1 ? styles.selectedSquare : ""
-                  }`}
-                  data-row={row}
-                  data-col={col}
-                ></div>
-              );
-            })
-          );
-        })}
+    <div className={styles.selectBoxes}>
+      <div className={styles.squareContainer} onClick={handleClick}>
+        {targetArray &&
+          targetArray.length &&
+          targetArray.map((subArr, row) => {
+            return (
+              subArr &&
+              subArr.length &&
+              subArr.map((ele, col) => {
+                return (
+                  <div
+                    key={`${row}-${col}`}
+                    className={`${styles.square} ${
+                      ele === 1 ? styles.selectedSquare : ""
+                    }`}
+                    data-row={row}
+                    data-col={col}
+                  ></div>
+                );
+              })
+            );
+          })}
+      </div>
+      <button onClick={onSubmit}>Submit the pattern</button>
     </div>
   );
 }

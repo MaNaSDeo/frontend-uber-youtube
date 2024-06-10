@@ -1,4 +1,4 @@
-.selectBoxes {
+.squareBoxContainer {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -20,22 +20,28 @@
   }
 }
 .squareContainer {
-  // max-width: calc(3 * 120px);
-  // max-width: calc(var(--grid-num) * 120px);
   max-width: calc(var(--grid-num) * var(--box-size));
   display: grid;
   grid-template-columns: repeat(var(--grid-num), 1fr);
   align-items: center;
-  gap: 10px;
 }
 .square {
   width: var(--box-size);
-  aspect-ratio: 1;
+  height: var(--box-size);
+  margin: 10px;
   transition: background-color 0.4s ease-in-out;
-  border: 1px solid black;
-  cursor: pointer;
 }
 .selectedSquare {
   background-color: #0bcc59;
   border: none !important;
+  cursor: not-allowed;
+}
+.boxVisible {
+  border: 1px solid black;
+  cursor: pointer;
+}
+.boxHidden {
+  cursor: initial;
+  opacity: 0;
+  pointer-events: none;
 }

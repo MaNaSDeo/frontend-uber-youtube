@@ -1,0 +1,53 @@
+.landingPage {
+  gap: 100px;
+}
+.heading {
+  text-align: center;
+}
+.titleText {
+  text-align: center;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.inputBtn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 16px;
+
+  input {
+    height: 37px;
+    width: 250px;
+    border: 1px solid #2f30371a;
+    border-radius: 6px 0 0 6px;
+    font-size: 1.2rem;
+    padding-left: 1rem;
+    ::placeholder {
+      font-family: Poppins;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      text-align: left;
+      background: #2f303780;
+    }
+  }
+
+  button {
+    background-color: #8b7ce1;
+    padding: 7px 32px 7px 32px;
+    border-radius: 0px 6px 6px 0px;
+    border: none;
+    font-family: Poppins;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 27px;
+    text-align: center;
+    color: #ffffff;
+    cursor: pointer;
+  }
+}

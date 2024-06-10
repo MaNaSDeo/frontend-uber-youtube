@@ -1,12 +1,14 @@
 import { useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
 import { InputArrayType } from "../../App";
-import "./SquareBoxContainer.css";
+import styles from "./SquareBoxContainer.module.scss";
+import { Link, useNavigate } from "react-router-dom";
 
 interface SquareBoxContainerProps {
   data: InputArrayType;
+  gridNum: number;
 }
 
-function SquareBoxContainer({ data }: SquareBoxContainerProps) {
+function SquareBoxContainer({ data, gridNum }: SquareBoxContainerProps) {
   const boxes = useMemo(() => data.flat(Infinity), [data]);
   const [selected, setSelected] = useState<Set<number>>(new Set());
   const [unloading, setUnloading] = useState<boolean>(false);
@@ -19,6 +21,7 @@ function SquareBoxContainer({ data }: SquareBoxContainerProps) {
       return acc;
     }, 0);
   }, [boxes]);
+  const navigate = useNavigate();
 
   function handleClick(e: MouseEvent<HTMLDivElement>) {
     const target = e.target as HTMLDivElement;
@@ -70,24 +73,36 @@ function SquareBoxContainer({ data }: SquareBoxContainerProps) {
     }
   }, [selected]);
 
+  useEffect(() => {
+    if (gridNum === 0) {
+      navigate("/");
+    }
+  }, [gridNum]);
+
   return (
-    <div className="square-container" onClick={handleClick}>
-      {boxes &&
-        boxes.length &&
-        boxes.map((box, index) => {
-          const status = box === 0 ? "hidden" : "visible";
-          const isSelected = selected.has(index);
-          return (
-            <div
-              className={`square ${box === 0 ? "boxHidden" : "boxVisible"} ${
-                isSelected ? "selectedSquare" : ""
-              }`}
-              key={`${box}-${index}`}
-              data-index={index}
-              data-status={status}
-            ></div>
-          );
-        })}
+    <div className={styles.squareBoxContainer}>
+      <Link to="/">
+        <button>Home</button>
+      </Link>
+
+      <div className={styles.squareContainer} onClick={handleClick}>
+        {boxes &&
+          boxes.length &&
+          boxes.map((box, index) => {
+            const status = box === 0 ? "hidden" : "visible";
+            const isSelected = selected.has(index);
+            return (
+              <div
+                className={`${styles.square} ${
+                  box === 0 ? styles.boxHidden : styles.boxVisible
+                } ${isSelected ? styles.selectedSquare : ""}`}
+                key={`${box}-${index}`}
+                data-index={index}
+                data-status={status}
+              ></div>
+            );
+          })}
+      </div>
     </div>
   );
 }
