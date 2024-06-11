@@ -31,8 +31,11 @@ function LandingPage({ setGridNum }: LandingPageProps) {
     <div className={styles.landingPage}>
       <h1 className={styles.heading}>Welcome to the Box Selection Game!</h1>
       <p className={styles.titleText}>
-        In this game, you'll create a grid of boxes, select some of them, and
-        then watch as they magically disappear in the order you selected them.
+        {/* In this game, you'll create a grid of boxes, select some of them, and
+        then watch as they magically disappear in the order you selected them. */}
+        In this game, you'll create a grid of boxes, select a pattern by
+        clicking on them, and then watch as the selected boxes disappear one by
+        one in the order you chose.
       </p>
       <form onSubmit={handleSubmit} className={styles.form}>
         <label htmlFor="gridSize">

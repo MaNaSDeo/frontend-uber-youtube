@@ -58,6 +58,12 @@ function SelectBoxes({ gridNum, setPatternArray }: SelectBoxesProps) {
 
   return (
     <div className={styles.selectBoxes}>
+      <h1>Select Your Pattern!</h1>
+      <p>
+        Click on the boxes to select (or deselect) them and create your desired
+        pattern. Once you're happy with your selection, click 'Submit the
+        Pattern' to proceed.
+      </p>
       <div className={styles.squareContainer} onClick={handleClick}>
         {targetArray &&
           targetArray.length &&

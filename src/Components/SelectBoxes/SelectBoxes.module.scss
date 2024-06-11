@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  gap: 20px;
+  gap: 5px;
 
   button {
     background-color: #0bcc59;
@@ -17,6 +17,12 @@
     text-align: center;
     color: #ffffff;
     cursor: pointer;
+  }
+  p {
+    text-align: center;
+  }
+  h1 {
+    text-align: center;
   }
 }
 .squareContainer {

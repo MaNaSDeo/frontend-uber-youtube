@@ -84,7 +84,11 @@ function SquareBoxContainer({ data, gridNum }: SquareBoxContainerProps) {
       <Link to="/">
         <button>Home</button>
       </Link>
-
+      <h1>Watch Your Pattern Unload</h1>
+      <p>
+        Select the boxes, sit back and enjoy as the boxes you selected disappear
+        one by one in the order you chose them.
+      </p>
       <div className={styles.squareContainer} onClick={handleClick}>
         {boxes &&
           boxes.length &&
